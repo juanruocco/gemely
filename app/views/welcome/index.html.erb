@@ -29,14 +29,13 @@
 
   <% end %>
 </table>
-  <%= form_for :like, url: '/likes' do |f| %>
-
-    name: <%= f.text_field :name %>
-    gusto: <%= f.text_field :like %>
-    <%= f.submit "Submit" %>
-  <% end %>
 
 
+<%= form_for :like, url: '/likes' do |f| %>
+  Name : <%= f.select :name, Hobby.all.collect { |p| [ p.name, p.name ] } %>
+  Gusto: <%= f.range_field :like, :min=>-10, :max=>10, :class=>"slide", :id=>"slider1"%>
+  <%= f.submit %>
+<% end %>
 
 <% else %>
   <%= link_to 'Login', '/login' %> | <%= link_to 'Signup', '/signup' %>
