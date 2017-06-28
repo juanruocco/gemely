@@ -1,2 +1,24 @@
-<h1>Hobbies#new</h1>
-<p>Find me in app/views/hobbies/new.html.erb</p>
+<h1>Hobbies!</h1>
+
+<%= form_for :hobby, url: '/hobby' do |f| %>
+
+  Name: <%= f.text_field :name %>
+  <%= f.submit "Submit" %>
+
+
+  <table>
+    <%
+    hobbies = Hobby.all
+    hobbies.each do |hobby| %>
+    <tr>
+
+      <td>
+
+        <%= hobby.name %>
+      </td>
+    </tr>
+
+    <% end %>
+  </table>
+
+<% end %>

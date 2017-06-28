@@ -4,12 +4,8 @@ class HobbiesController < ApplicationController
 
   def create
     hobby = Hobby.new(hobby_params)
-    if current_user
-      current_user.hobbies << hobby
-      redirect_to '/'
-    else
-      redirect_to '/'
-    end
+    hobby.save
+    redirect_to '/hobby'
 
   end
 
@@ -19,6 +15,6 @@ class HobbiesController < ApplicationController
 
   private
   def hobby_params
-    params.require(:hobby).permit(:name, :like)
+    params.require(:hobby).permit(:name)
   end
 end

@@ -6,6 +6,7 @@ class User
   field :email, type: String
   field :password_digest, type: String
 
-  has_many :hobbies
+
+  has_many :likes
   has_secure_password
 end
