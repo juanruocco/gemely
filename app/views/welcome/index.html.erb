@@ -11,6 +11,21 @@
 
 <% if current_user %>
   Signed in as <%= current_user.name %> | <%= link_to "Logout", '/logout' %>
+  <%
+  hobbies = current_user.hobbies
+  hobbies.each do |hobbie| %>
+    <%= hobbie.name %>
+  <% end %>
+
+  <%= form_for :hobby, url: '/hobbies' do |f| %>
+
+    name: <%= f.text_field :name %>
+    gusto: <%= f.text_field :like %>
+    <%= f.submit "Submit" %>
+  <% end %>
+
+
+
 <% else %>
   <%= link_to 'Login', '/login' %> | <%= link_to 'Signup', '/signup' %>
 <% end %>
