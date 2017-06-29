@@ -1,17 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>GifVault</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
+
 <body>
 
 
 <% if current_user %>
   Signed in as <%= current_user.name %> | <%= link_to "Logout", '/logout' %>
+
+  <%= form_for :like, url: '/likes' do |f| %>
+
+
+
+
+
+    <%
+    # improve this in the like setter of the user model
+    user_likes = current_user.likes.all
+    user_likes_name = []
+    user_likes.each do |app|
+      user_likes_name << app.name
+    end
+    #puts user_likes.to_a
+    missing_hobbies = []
+    all_hobbies = Hobby.all
+
+    all_hobbies.each do |ha|
+      is_added = false
+      user_likes_name.each do |h|
+        if ha.name == h
+          is_added = true
+        end
+
+        break if ha.name == h
+      end
+
+      if is_added == false
+        missing_hobbies << ha
+      end
+    end
+    %>
+
+
+    Name : <%= f.select :name, missing_hobbies.collect { |p| [ p.name, p.name ] } %>
+    Gusto: <%= f.range_field :like, :min=>-10, :max=>10, :class=>"slide", :id=>"slider1"%>
+    <%= f.submit %>
+  <% end %>
+
 <table>
+
+
   <%
   likes = current_user.likes
   likes.each do |like| %>
@@ -31,11 +68,7 @@
 </table>
 
 
-<%= form_for :like, url: '/likes' do |f| %>
-  Name : <%= f.select :name, Hobby.all.collect { |p| [ p.name, p.name ] } %>
-  Gusto: <%= f.range_field :like, :min=>-10, :max=>10, :class=>"slide", :id=>"slider1"%>
-  <%= f.submit %>
-<% end %>
+
 
 <% else %>
   <%= link_to 'Login', '/login' %> | <%= link_to 'Signup', '/signup' %>
