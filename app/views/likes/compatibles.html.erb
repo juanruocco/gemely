@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<% if current_user %>
+
+<table>
+
+  <tr>
+    <td>usuario</td>
+    <td>compatibilidad</td>
+  </tr>
+
+  <%
+
+  users = User.all.to_a
+
+  likes_me = current_user.likes.to_a
+
+  users.each do |user|
+    puts user.name
+    %>
+  <tr>
+    <td><%= user.name %></td>
+    <td>
+
+      <%
+       compatibility = 0
+       likes_user = user.likes.to_a
+       likes_me.each do |lm|
+         likes_user.each do |lu|
+           if(lm.name == lu.name)
+             puts lm.name
+             dislike = 0
+             if lu.like < lm.like
+               dislike = lm.like - lu.like
+               puts dislike
+               if dislike > (lm.like).abs*2
+                 dislike = lm.like*2
+                 puts dislike
+               end
+
+             end
+             puts "mine"
+             puts lm.like
+             puts "other"
+             puts lu.like
+             puts dislike
+             likeness = 10 - dislike
+             compatibility = compatibility + likeness
+           end
+         end
+       end
+
+       %>
+      <%=compatibility%>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<% else %>
+  <%= link_to 'Login', '/login' %> | <%= link_to 'Signup', '/signup' %>
+<% end %>
+
+<%= yield %>
+
+</body>
+</html>

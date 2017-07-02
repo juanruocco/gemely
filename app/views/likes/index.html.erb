@@ -1,0 +1,95 @@
+
+<% if logged_in? %>
+<div class="row">
+  <%= form_for :like, url: '/likes',class:"form-horizontal" do |f|  %>
+
+    <%
+    # improve this in the like setter of the user model
+    user_likes = current_user.likes.all
+    user_likes_name = []
+    user_likes.each do |app|
+      user_likes_name << app.name
+    end
+    #puts user_likes.to_a
+    missing_hobbies = []
+    all_hobbies = Hobby.all
+
+    all_hobbies.each do |ha|
+      is_added = false
+      user_likes_name.each do |h|
+        if ha.name == h
+          is_added = true
+        end
+
+        break if ha.name == h
+      end
+
+      if is_added == false
+        missing_hobbies << ha
+      end
+    end
+    %>
+  <div class="col-sm-6 col-sm-offset-3">
+
+    <div class="form-group">
+      <label  class="col-sm-2 control-label margin-bottom">Name</label>
+      <div class="col-sm-10">
+          <%= f.select :name, missing_hobbies.collect { |p| [ p.name, p.name ] }, {},{ class: 'form-control margin-bottom'} %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label  class="col-sm-2 control-label margin-bottom">Gusto</label>
+      <div class="col-sm-10">
+         <%= f.range_field :like, :min=>-10, :max=>10, :class=>"slide form-control margin-bottom", :id=>"slider1"%>
+      </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-6">
+          <%= f.submit "Añadir", class: "btn btn-primary"%>
+        </div>
+    </div>
+   </div>
+</div>
+
+</br></br></br>
+
+
+  <% end %>
+
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <table class="table table-striped borderless table-bordered">
+
+      <tr>
+
+        <td class="text-center">
+
+          <strong >Hobby</strong>
+        </td>
+        <td class="text-center">
+          <strong>Agrado</strong>
+
+        </td>
+      </tr>
+      <%
+      likes = current_user.likes
+      likes.each do |like| %>
+      <tr>
+
+        <td>
+
+          <strong><%= like.name %></strong>
+        </td>
+        <td>
+          <input type="range"  min="-10" max="10" value=<%= like.like %>>
+
+        </td>
+      </tr>
+
+      <% end %>
+    </table>
+  </div>
+</div>
+<% end %>

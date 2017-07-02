@@ -5,74 +5,6 @@
 
 
 <% if current_user %>
-  Hi <%= current_user.name %> 
-
-  <%= form_for :like, url: '/likes' do |f| %>
-
-
-
-
-
-    <%
-    # improve this in the like setter of the user model
-    user_likes = current_user.likes.all
-    user_likes_name = []
-    user_likes.each do |app|
-      user_likes_name << app.name
-    end
-    #puts user_likes.to_a
-    missing_hobbies = []
-    all_hobbies = Hobby.all
-
-    all_hobbies.each do |ha|
-      is_added = false
-      user_likes_name.each do |h|
-        if ha.name == h
-          is_added = true
-        end
-
-        break if ha.name == h
-      end
-
-      if is_added == false
-        missing_hobbies << ha
-      end
-    end
-    %>
-
-
-    Name : <%= f.select :name, missing_hobbies.collect { |p| [ p.name, p.name ] } %>
-    Gusto: <%= f.range_field :like, :min=>-10, :max=>10, :class=>"slide", :id=>"slider1"%>
-    <%= f.submit %>
-  <% end %>
-
-<table>
-
-
-  <%
-  likes = current_user.likes
-  likes.each do |like| %>
-  <tr>
-
-    <td>
-
-      <%= like.name %>
-    </td>
-    <td>
-      <input type="range"  min="-10" max="10" value=<%= like.like %>>
-
-    </td>
-  </tr>
-
-  <% end %>
-</table>
-
-<table>
-
-  <tr>
-    <td>usuario</td>
-    <td>compatibilidad</td>
-  </tr>
 
   <%
 
@@ -80,53 +12,111 @@
 
   likes_me = current_user.likes.to_a
 
+  self_compatibility = 0
+
+  user_most_compatible = nil
+  most_compatible = 0
+
   users.each do |user|
     puts user.name
-    %>
-  <tr>
-    <td><%= user.name %></td>
-    <td>
 
-      <%
-       compatibility = 0
-       likes_user = user.likes.to_a
-       likes_me.each do |lm|
-         likes_user.each do |lu|
-           if(lm.name == lu.name)
-             puts lm.name
-             dislike = 0
-             if lu.like < lm.like
-               dislike = lm.like - lu.like
-               puts dislike
-               if dislike > (lm.like).abs*2
-                 dislike = lm.like*2
-                 puts dislike
-               end
-
-             end
-             puts "mine"
-             puts lm.like
-             puts "other"
-             puts lu.like
-             puts dislike
-             likeness = 10 - dislike
-             compatibility = compatibility + likeness
-           end
-
-         end
+    compatibility = 0
+    likes_user = user.likes.to_a
 
 
-       end
+    likes_me.each do |lm|
+      likes_user.each do |lu|
+        if(lm.name == lu.name)
+          puts lm.name
+          dislike = 0
+          if lu.like < lm.like
+            dislike = lm.like - lu.like
+            puts dislike
+            if dislike > (lm.like).abs*2
+              dislike = lm.like*2
+              puts dislike
+            end
+
+          end
+          puts "mine"
+          puts lm.like
+          puts "other"
+          puts lu.like
+          puts dislike
+          likeness = 10 - dislike
+          compatibility = compatibility + likeness
+        end
+
+      end
+
+    end
+
+    if current_user.name == user.name
+      self_compatibility = compatibility
+      puts "self_compatibility:"
+      puts self_compatibility
+    end
+
+    if compatibility> most_compatible and user.name != current_user.name
+      most_compatible = compatibility
+
+      user_most_compatible = user
+    end
+
+  end
+
+  puts "most_compatible:"
+  puts most_compatible
+
+  %>
+
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <table class="table table-striped borderless table-bordered">
+
+        <tr>
+
+          <td class="text-center">
+
+            <strong >Desconocido mas Compatible</strong>
+          </td>
+          <td class="text-center">
+            <strong>Compatibilidad</strong>
+
+          </td>
+        </tr>
+
+        <tr>
+          <td> <%=user_most_compatible.name %> </td>
+          <td> <%=100*most_compatible/self_compatibility%>%</td>
+        </tr>
+
+      </table>
+    </div>
+  </div>
+
+</br></br></br>
+
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <table class="table table-striped borderless table-bordered">
+
+        <tr>
+
+          <td class="text-center">
+
+            <strong >Amigos</strong>
+          </td>
+          <td class="text-center">
+            <strong>Compatibilidad</strong>
+
+          </td>
+        </tr>
 
 
-
-      %>
-      <%=compatibility%>
-    </td>
-  </tr>
-  <% end %>
-</table>
-
+      </table>
+    </div>
+  </div>
 
 
 

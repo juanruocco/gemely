@@ -10,19 +10,20 @@ Rails.application.routes.draw do
   #
   # get 'hobbies/create'
   #
-  # get 'hobbies/destroy'
+  get 'compatibles' => 'likes#compatibles'
 
   post '/hobby' => 'hobbies#create'
-  get '/hobby' => 'hobbies#new'
+  get  '/hobby' => 'hobbies#new'
 
-  get '/login' => 'sessions#new'
+  get  '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
-  get '/logout' => 'sessions#destroy'
+  get  '/logout' => 'sessions#destroy'
 
-  get '/signup' => 'users#new'
+  get  '/signup' => 'users#new'
   post '/users' => 'users#create'
 
   post '/likes' => 'likes#create'
+  get  '/likes' => 'likes#index'
 
   root 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -6,11 +6,10 @@ class LikesController < ApplicationController
     like = Like.new(like_params)
     if current_user
       current_user.likes << like
-      redirect_to '/'
+      redirect_to '/likes'
     else
       redirect_to '/'
     end
-
   end
 
 
