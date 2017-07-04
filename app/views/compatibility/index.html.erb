@@ -1,0 +1,116 @@
+<%
+users = User.all.to_a
+
+likes_me = current_user.likes.to_a
+
+self_compatibility = 0
+
+user_most_compatible = nil
+most_compatible = 0
+
+users.each do |user|
+  puts user.name
+
+  compatibility = 0
+  likes_user = user.likes.to_a
+
+
+  likes_me.each do |lm|
+    likes_user.each do |lu|
+      if(lm.name == lu.name)
+        puts lm.name
+        dislike = 0
+        if lu.like < lm.like
+          dislike = lm.like - lu.like
+          puts dislike
+          if dislike > (lm.like).abs*2
+            dislike = lm.like*2
+            puts dislike
+          end
+
+        end
+        puts "mine"
+        puts lm.like
+        puts "other"
+        puts lu.like
+        puts dislike
+        likeness = 10 - dislike
+        compatibility = compatibility + likeness
+      end
+
+    end
+
+  end
+
+  if current_user.name == user.name
+    self_compatibility = compatibility
+    puts "self_compatibility:"
+    puts self_compatibility
+  end
+
+  if compatibility> most_compatible and user.name != current_user.name
+    most_compatible = compatibility
+
+    user_most_compatible = user
+  end
+
+end
+
+puts "most_compatible:"
+puts most_compatible
+
+%>
+
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <table class="table table-striped borderless table-bordered">
+
+      <tr>
+
+        <td class="text-center">
+
+          <strong >Desconocido mas Compatible</strong>
+        </td>
+        <td class="text-center">
+          <strong>Compatibilidad</strong>
+
+        </td>
+      </tr>
+
+      <%
+      if user_most_compatible
+      %>
+      <tr>
+        <td> <%=user_most_compatible.name %> </td>
+        <td> <%=100*most_compatible/self_compatibility%>%</td>
+      </tr>
+
+      <%end%>
+
+
+    </table>
+  </div>
+</div>
+
+</br></br></br>
+
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <table class="table table-striped borderless table-bordered">
+
+      <tr>
+
+        <td class="text-center">
+
+          <strong >Amigos</strong>
+        </td>
+        <td class="text-center">
+          <strong>Compatibilidad</strong>
+
+        </td>
+      </tr>
+
+
+    </table>
+  </div>
+</div>

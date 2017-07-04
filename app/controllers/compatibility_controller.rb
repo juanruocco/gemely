@@ -1,0 +1,2 @@
+class CompatibilityController < ApplicationController
+end

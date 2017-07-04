@@ -86,10 +86,16 @@
           </td>
         </tr>
 
+        <%
+        if user_most_compatible
+        %>
         <tr>
           <td> <%=user_most_compatible.name %> </td>
           <td> <%=100*most_compatible/self_compatibility%>%</td>
         </tr>
+
+        <%end%>
+
 
       </table>
     </div>

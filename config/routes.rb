@@ -19,11 +19,15 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get  '/logout' => 'sessions#destroy'
 
+  get  '/users/show' => 'users#show'
   get  '/signup' => 'users#new'
   post '/users' => 'users#create'
+  #resources :users
 
   post '/likes' => 'likes#create'
   get  '/likes' => 'likes#index'
+
+  get  '/compatibility' => 'compatibility#index'
 
   root 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
