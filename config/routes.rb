@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'sports/new'
+
+  get 'sports/create'
+
+  get 'sports/destroy'
+
   # get 'likes/new'
   #
   # get 'likes/create'
@@ -14,6 +20,9 @@ Rails.application.routes.draw do
 
   post '/hobby' => 'hobbies#create'
   get  '/hobby' => 'hobbies#new'
+
+  post '/sport' => 'sports#create'
+  get  '/sport' => 'sports#new'
 
   get  '/login' => 'sessions#new'
   post '/login' => 'sessions#create'

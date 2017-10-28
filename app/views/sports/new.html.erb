@@ -1,0 +1,30 @@
+<h1>Sports Creation</h1>
+
+<%= form_for :sport, url: '/sport' do |f| %>
+
+  Name: <%= f.text_field :name %>
+  Tipo: <%= f.text_field :type %>
+  <%= f.submit "Submit" %>
+
+
+  <table>
+    <tr>
+      <td>Nombre</td>
+      <td>Tipo</td>
+    </tr>
+    <%
+    sports = Sport.all
+    sports.each do |sport| %>
+    <tr>
+      <td>
+        <%= sport.name %>
+      </td>
+      <td>
+        <%= sport.type %>
+      </td>
+    </tr>
+
+    <% end %>
+  </table>
+
+<% end %>

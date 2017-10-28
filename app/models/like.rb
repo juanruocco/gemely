@@ -6,7 +6,7 @@ class Like
   belongs_to :user
 
   # validate :name_from_hobbies
-  # 
+  #
   # private
   # def name_from_hobbies
   #   if name != "basket"
